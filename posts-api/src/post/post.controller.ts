@@ -56,9 +56,7 @@ export class PostController {
   async getPosts(@Res() response) {
     try {
       const postData = await this.postService.getAllPosts();
-      return response.status(HttpStatus.OK).json({
-        postData,
-      });
+      return response.status(HttpStatus.OK).json(postData);
     } catch (err) {
       return response.status(err.status).json(err.response);
     }
@@ -68,10 +66,7 @@ export class PostController {
   async getPost(@Res() response, @Param('id') postId: string) {
     try {
       const existingPost = await this.postService.getPost(postId);
-      return response.status(HttpStatus.OK).json({
-        message: 'Student found successfully',
-        existingPost,
-      });
+      return response.status(HttpStatus.OK).json(existingPost);
     } catch (err) {
       return response.status(err.status).json(err.response);
     }

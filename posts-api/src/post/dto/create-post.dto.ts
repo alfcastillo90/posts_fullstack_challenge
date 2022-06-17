@@ -5,10 +5,6 @@ export class CreatePostDto {
   @IsString()
   body: string;
 
-  @IsNumber()
-  @IsNotEmpty()
-  postId: number;
-
   @IsNotEmpty()
   @IsString()
   title: string;

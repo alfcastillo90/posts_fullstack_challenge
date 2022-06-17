@@ -3,13 +3,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PostsModule } from './posts/posts.module';
+import { PostModule } from './post/post.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: `.env${process.env.NODE_ENV || 'dev'}`,
+      envFilePath: `.env.${process.env.NODE_ENV || 'dev'}`,
     }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
@@ -18,7 +18,7 @@ import { PostsModule } from './posts/posts.module';
       }),
       inject: [ConfigService],
     }),
-    PostsModule,
+    PostModule,
   ],
   controllers: [AppController],
   providers: [AppService],

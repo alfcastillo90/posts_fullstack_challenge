@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { catchError, map } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Post } from "../model/Post";
+import { Post } from "../model/post";
 @Injectable({
   providedIn: 'root'
 })
@@ -13,20 +13,20 @@ export class PostService {
   httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
   constructor(private httpClient: HttpClient) { }
   // Add
-  AddPost(data: Post): Observable<any> {
-    let API_URL = `${this.REST_API}/add-book`;
+  addPost(data: Post): Observable<any> {
+    let API_URL = `${this.REST_API}/post`;
     return this.httpClient.post(API_URL, data)
       .pipe(
         catchError(this.handleError)
       )
   }
   // Get all objects
-  GetPosts() {
+  getPosts() {
     return this.httpClient.get(`${this.REST_API}`);
   }
   // Get single object
-  GetBook(id:any): Observable<any> {
-    let API_URL = `${this.REST_API}/read-post/${id}`;
+  getPost(id:any): Observable<any> {
+    let API_URL = `${this.REST_API}/post/${id}`;
     return this.httpClient.get(API_URL, { headers: this.httpHeaders })
       .pipe(map((res: any) => {
           return res || {}
@@ -34,15 +34,17 @@ export class PostService {
         catchError(this.handleError)
       )
   }
+
   updatePost(id:any, data:any): Observable<any> {
-    let API_URL = `${this.REST_API}/update-post/${id}`;
+    let API_URL = `${this.REST_API}/post/${id}`;
     return this.httpClient.put(API_URL, data, { headers: this.httpHeaders })
       .pipe(
         catchError(this.handleError)
       )
   }
+
   deletePost(id:any): Observable<any> {
-    let API_URL = `${this.REST_API}/delete-post/${id}`;
+    let API_URL = `${this.REST_API}/post/${id}`;
     return this.httpClient.delete(API_URL, { headers: this.httpHeaders}).pipe(
       catchError(this.handleError)
     )

@@ -3,12 +3,12 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder } from "@angular/forms";
 import { PostService } from "../../services/post.service";
 @Component({
-  selector: 'app-add-book',
-  templateUrl: './add-book.component.html',
-  styleUrls: ['./add-book.component.scss']
+  selector: 'app-add-post',
+  templateUrl: './add-post.component.html',
+  styleUrls: ['./add-post.component.scss']
 })
 export class AddPostComponent implements OnInit {
-  bookForm: FormGroup;
+  postForm: FormGroup;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -16,15 +16,15 @@ export class AddPostComponent implements OnInit {
     private ngZone: NgZone,
     private postService: PostService
   ) {
-    this.bookForm = this.formBuilder.group({
-      name: [''],
-      price: [''],
-      description: ['']
+    this.postForm = this.formBuilder.group({
+      body: [''],
+      title: [''],
+      userId: ['']
     })
   }
   ngOnInit() { }
   onSubmit(): any {
-    this.postService.addPost(this.bookForm.value)
+    this.postService.addPost(this.postForm.value)
       .subscribe(() => {
         console.log('Data added successfully!')
         this.ngZone.run(() => this.router.navigateByUrl('/posts-list'))

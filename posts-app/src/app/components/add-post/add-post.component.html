@@ -1,1 +1,24 @@
-<p>add-post works!</p>
+<div class="row justify-content-center mt-5">
+  <div class="col-md-4">
+    <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Title</label>
+        <input class="form-control" type="text" formControlName="title" required>
+      </div>
+
+      <div class="form-group">
+        <label>UserID</label>
+        <input class="form-control" type="number" formControlName="userId" required>
+      </div>
+
+      <div class="form-group">
+        <label>Body</label>
+        <input class="form-control" type="text" formControlName="body" required>
+      </div>
+
+      <div class="form-group">
+        <button class="btn btn-primary btn-block" type="submit">Add Post</button>
+      </div>
+    </form>
+  </div>
+</div>

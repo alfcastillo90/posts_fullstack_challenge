@@ -13,7 +13,7 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PostService } from './post.service';
 
-@Controller('post')
+@Controller('posts')
 export class PostController {
   constructor(private readonly postService: PostService) {}
   @Post()
@@ -57,7 +57,6 @@ export class PostController {
     try {
       const postData = await this.postService.getAllPosts();
       return response.status(HttpStatus.OK).json({
-        message: 'All posts data found successfully',
         postData,
       });
     } catch (err) {

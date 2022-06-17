@@ -9,15 +9,23 @@ import { UpdatePostDto } from './dto/update-post.dto';
 export class PostService {
   constructor(@InjectModel('Post') private postModel: Model<IPost>) {}
   async createPost(createPostDto: CreatePostDto): Promise<IPost> {
-    const newPost = await new this.postModel(createPostDto);
+    const getPost = await this.getAllPosts();
+    const postId = getPost.length > 0 ? getPost.length + 1 : 1;
+
+    const newPost = await new this.postModel({
+      postId,
+      ...createPostDto,
+    });
     return newPost.save();
   }
   async updatePost(
     postId: string,
     updatePostDto: UpdatePostDto,
   ): Promise<IPost> {
-    const existingPost = await this.postModel.findByIdAndUpdate(
-      postId,
+    const existingPost = await this.postModel.findOneAndUpdate(
+      {
+        postId,
+      },
       updatePostDto,
       { new: true },
     );
@@ -27,11 +35,7 @@ export class PostService {
     return existingPost;
   }
   async getAllPosts(): Promise<IPost[]> {
-    const postData = await this.postModel.find();
-    if (!postData || postData.length == 0) {
-      throw new NotFoundException('Posts data not found!');
-    }
-    return postData;
+    return this.postModel.find();
   }
   async getPost(postId: string): Promise<IPost> {
     const existingPost = await this.postModel.findById(postId).exec();
@@ -41,7 +45,7 @@ export class PostService {
     return existingPost;
   }
   async deletePost(postId: string): Promise<IPost> {
-    const deletedPost = await this.postModel.findByIdAndDelete(postId);
+    const deletedPost = await this.postModel.findOneAndDelete({ postId });
     if (!deletedPost) {
       throw new NotFoundException(`Post #${postId} not found`);
     }

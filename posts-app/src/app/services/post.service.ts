@@ -60,6 +60,8 @@ export class PostService {
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
     console.log(errorMessage);
-    return throwError(errorMessage);
+    return throwError(() => {
+      return errorMessage;
+    });
   }
 }

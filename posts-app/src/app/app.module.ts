@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -9,6 +9,8 @@ import { PostDetailComponent } from './components/post-detail/post-detail.compon
 import { PostsListComponent } from './components/posts-list/posts-list.component';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
+import { AngularMaterialModule } from "./material.module";
+import { PostService } from "./services/post.service";
 
 @NgModule({
   declarations: [
@@ -23,9 +25,11 @@ import { HttpClientModule } from "@angular/common/http";
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AngularMaterialModule
   ],
-  providers: [],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [PostService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

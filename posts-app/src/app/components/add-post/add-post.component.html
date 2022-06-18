@@ -1,24 +1,57 @@
-<div class="row justify-content-center mt-5">
-  <div class="col-md-4">
-    <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label>Title</label>
-        <input class="form-control" type="text" formControlName="title" required>
-      </div>
+<!-- Title group  -->
+<div class="title-group">
+  <h1 class="mat-h1">Add Post</h1>
+  <mat-divider fxFlex="1 0"></mat-divider>
+</div>
 
-      <div class="form-group">
-        <label>UserID</label>
-        <input class="form-control" type="number" formControlName="userId" required>
-      </div>
+<div class="inner-wrapper">
+  <form [formGroup]="postForm"
+        (ngSubmit)="onSubmit()"
+        #resetPostForm="ngForm"
+        novalidate
+  >
+    <mat-card>
+      <div class="controlers-wrapper">
+        <!-- title -->
+        <mat-form-field class="example-full-width">
+          <input
+            matInput
+            placeholder="Post title"
+            formControlName="title"
+          />
+          <mat-error *ngIf="handleError('title', 'required')">
+            You must provide a<strong>post title</strong>
+          </mat-error>
+        </mat-form-field>
+        <!-- UserId -->
+        <mat-form-field class="example-full-width">
+          <input
+            matInput
+            placeholder="user ID"
+            formControlName="userId"
+            type="number"
+          />
+          <mat-error *ngIf="handleError('userId', 'required')">
+            You must provide a<strong>userId</strong>
+          </mat-error>
+        </mat-form-field>
 
-      <div class="form-group">
-        <label>Body</label>
-        <input class="form-control" type="text" formControlName="body" required>
+        <mat-form-field class="example-full-width">
+          <input
+            matInput
+            placeholder="Body"
+            formControlName="body"
+          />
+          <mat-error *ngIf="handleError('body', 'required')">
+            You must provide a<strong>body</strong>
+          </mat-error>
+        </mat-form-field>
       </div>
-
-      <div class="form-group">
-        <button class="btn btn-primary btn-block" type="submit">Add Post</button>
+      <div class="full-wrapper button-wrapper">
+        <div class="button-wrapper">
+          <button mat-flat-button color="warn">Submit</button>
+        </div>
       </div>
-    </form>
-  </div>
+    </mat-card>
+  </form>
 </div>

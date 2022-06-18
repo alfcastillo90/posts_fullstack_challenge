@@ -14,7 +14,7 @@ export class PostService {
   constructor(private httpClient: HttpClient) { }
   // Add
   addPost(data: Post): Observable<any> {
-    let API_URL = `${this.REST_API}/post`;
+    let API_URL = `${this.REST_API}/posts`;
     return this.httpClient.post(API_URL, data)
       .pipe(
         catchError(this.handleError)
@@ -22,11 +22,11 @@ export class PostService {
   }
   // Get all objects
   getPosts() {
-    return this.httpClient.get(`${this.REST_API}`);
+    return this.httpClient.get(`${this.REST_API}/posts`);
   }
   // Get single object
   getPost(id:any): Observable<any> {
-    let API_URL = `${this.REST_API}/post/${id}`;
+    let API_URL = `${this.REST_API}/posts/${id}`;
     return this.httpClient.get(API_URL, { headers: this.httpHeaders })
       .pipe(map((res: any) => {
           return res || {}
@@ -36,7 +36,7 @@ export class PostService {
   }
 
   updatePost(id:any, data:any): Observable<any> {
-    let API_URL = `${this.REST_API}/post/${id}`;
+    let API_URL = `${this.REST_API}/posts/${id}`;
     return this.httpClient.put(API_URL, data, { headers: this.httpHeaders })
       .pipe(
         catchError(this.handleError)
@@ -44,14 +44,14 @@ export class PostService {
   }
 
   deletePost(id:any): Observable<any> {
-    let API_URL = `${this.REST_API}/post/${id}`;
+    let API_URL = `${this.REST_API}/posts/${id}`;
     return this.httpClient.delete(API_URL, { headers: this.httpHeaders}).pipe(
       catchError(this.handleError)
     )
   }
   // Error
   handleError(error: HttpErrorResponse) {
-    let errorMessage = '';
+    let errorMessage;
     if (error.error instanceof ErrorEvent) {
       // Handle client error
       errorMessage = error.error.message;
@@ -60,6 +60,8 @@ export class PostService {
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
     console.log(errorMessage);
-    return throwError(errorMessage);
+    return throwError(() => {
+      return errorMessage;
+    });
   }
 }

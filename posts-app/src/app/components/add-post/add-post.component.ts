@@ -1,6 +1,6 @@
-import { Component, OnInit, NgZone } from '@angular/core';
+import {Component, OnInit, NgZone, ViewChild} from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PostService } from "../../services/post.service";
 @Component({
   selector: 'app-add-post',
@@ -9,6 +9,7 @@ import { PostService } from "../../services/post.service";
 })
 export class AddPostComponent implements OnInit {
   postForm: FormGroup;
+  @ViewChild('resetPostForm') myNgForm;
 
   constructor(
     public formBuilder: FormBuilder,
@@ -17,17 +18,23 @@ export class AddPostComponent implements OnInit {
     private postService: PostService
   ) {
     this.postForm = this.formBuilder.group({
-      body: [''],
-      title: [''],
-      userId: ['']
+      body: ['', [Validators.required]],
+      title: ['', [Validators.required]],
+      userId: ['', [Validators.required]]
     })
   }
   ngOnInit() { }
   onSubmit(): any {
-    this.postService.addPost(this.postForm.value)
-      .subscribe(() => {
-        console.log('Data added successfully!')
-        this.ngZone.run(() => this.router.navigateByUrl('/posts-list'))
-      });
+    if ( this.postForm.valid ) {
+      this.postService.addPost(this.postForm.value)
+        .subscribe(() => {
+          console.log('Data added successfully!')
+          this.ngZone.run(() => this.router.navigateByUrl('/posts-list'))
+        });
+    }
   }
+
+  public handleError = (controlName: string, errorName: string) => {
+    return this.postForm.controls[controlName].hasError(errorName);
+  };
 }

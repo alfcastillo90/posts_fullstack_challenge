@@ -1,6 +1,6 @@
 import {Component, OnInit, NgZone, ViewChild} from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder } from "@angular/forms";
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PostService } from "../../services/post.service";
 @Component({
   selector: 'app-add-post',
@@ -18,9 +18,9 @@ export class AddPostComponent implements OnInit {
     private postService: PostService
   ) {
     this.postForm = this.formBuilder.group({
-      body: [''],
-      title: [''],
-      userId: ['']
+      body: ['', [Validators.required]],
+      title: ['', [Validators.required]],
+      userId: ['', [Validators.required]]
     })
   }
   ngOnInit() { }

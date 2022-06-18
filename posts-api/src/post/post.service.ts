@@ -38,7 +38,7 @@ export class PostService {
     return this.postModel.find();
   }
   async getPost(postId: string): Promise<IPost> {
-    const existingPost = await this.postModel.findById(postId).exec();
+    const existingPost = await this.postModel.findOne({ postId }).exec();
     if (!existingPost) {
       throw new NotFoundException(`Post #${postId} not found`);
     }

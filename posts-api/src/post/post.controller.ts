@@ -37,7 +37,7 @@ export class PostController {
   ) {
     try {
       const existingPost = await this.postService.updatePost(
-        postId,
+        parseInt(postId),
         updatePostDto,
       );
       return response.status(HttpStatus.OK).json(existingPost);
@@ -58,7 +58,7 @@ export class PostController {
   @Get('/:id')
   async getPost(@Res() response, @Param('id') postId: string) {
     try {
-      const existingPost = await this.postService.getPost(postId);
+      const existingPost = await this.postService.getPost(parseInt(postId));
       return response.status(HttpStatus.OK).json(existingPost);
     } catch (err) {
       return response.status(err.status).json(err.response);
@@ -68,10 +68,10 @@ export class PostController {
   @Delete('/:id')
   async deletePost(@Res() response, @Param('id') postId: string) {
     try {
-      const deletedPost = await this.postService.deletePost(postId);
+      await this.postService.deletePost(parseInt(postId));
+
       return response.status(HttpStatus.OK).json({
         message: 'Post deleted successfully',
-        deletedPost,
       });
     } catch (err) {
       return response.status(err.status).json(err.response);

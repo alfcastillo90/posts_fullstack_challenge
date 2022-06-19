@@ -20,11 +20,7 @@ export class PostController {
   async createPost(@Res() response, @Body() createPostDto: CreatePostDto) {
     try {
       const newPost = await this.postService.createPost(createPostDto);
-
-      return response.status(HttpStatus.CREATED).json({
-        message: 'Post has been created successfully',
-        newPost,
-      });
+      return response.status(HttpStatus.CREATED).json(newPost);
     } catch (err) {
       return response.status(HttpStatus.BAD_REQUEST).json({
         statusCode: 400,
@@ -44,10 +40,7 @@ export class PostController {
         postId,
         updatePostDto,
       );
-      return response.status(HttpStatus.OK).json({
-        message: 'Post has been successfully updated',
-        existingPost,
-      });
+      return response.status(HttpStatus.OK).json(existingPost);
     } catch (err) {
       return response.status(err.status).json(err.response);
     }
@@ -77,7 +70,7 @@ export class PostController {
     try {
       const deletedPost = await this.postService.deletePost(postId);
       return response.status(HttpStatus.OK).json({
-        message: 'Student deleted successfully',
+        message: 'Post deleted successfully',
         deletedPost,
       });
     } catch (err) {

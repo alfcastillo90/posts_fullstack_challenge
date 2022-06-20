@@ -12,7 +12,6 @@ export class PostDetailComponent implements OnInit {
   getId: any;
   updateForm: FormGroup;
   @ViewChild('resetPostForm') myNgForm;
-  postForm: FormGroup;
 
   ngOnInit() {
     this.updateForm = this.formBuilder.group({
@@ -34,7 +33,7 @@ export class PostDetailComponent implements OnInit {
     this.postService.getPost(this.getId).subscribe(res => {
       console.log(res);
 
-      this.postForm = this.formBuilder.group({
+      this.updateForm = this.formBuilder.group({
         userId: [res.userId, [Validators.required]],
         title: [res.title, [Validators.required]],
         body: [res.body, [Validators.required]],
@@ -54,6 +53,6 @@ export class PostDetailComponent implements OnInit {
   };
 
   public handleError = (controlName: string, errorName: string) => {
-    return this.postForm.controls[controlName].hasError(errorName);
+    return this.updateForm.controls[controlName].hasError(errorName);
   };
 }

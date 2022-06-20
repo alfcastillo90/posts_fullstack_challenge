@@ -4,6 +4,15 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import { connect, Connection, Model } from 'mongoose';
 import { Post, PostSchema } from './schemas/post.schema';
 import { getModelToken } from '@nestjs/mongoose';
+import { CreatePostDto } from './dto/create-post.dto';
+
+const postDTOStub = (): CreatePostDto => {
+  return {
+    title: 'This is the title of the  post',
+    body: 'This is a stub for testing',
+    userId: 1,
+  };
+};
 
 describe('PostsService', () => {
   let mongodb: MongoMemoryServer;
@@ -44,5 +53,50 @@ describe('PostsService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
+  });
+
+  it('createPost', async () => {
+    const createdPost = await service.createPost(postDTOStub());
+    expect(createdPost.title).toBe(postDTOStub().title);
+  });
+
+  it('getPosts', async () => {
+    await new postModel(postDTOStub()).save();
+    const posts = await service.getAllPosts();
+    expect(posts[0].title).toBe(postDTOStub().title);
+  });
+
+  it('getPost', async () => {
+    const post = {
+      postId: 1,
+      ...postDTOStub(),
+    };
+
+    await new postModel(post).save();
+
+    const result = await service.getPost(post.postId);
+    expect(result.title).toBe(postDTOStub().title);
+  });
+
+  it('delete post', async () => {
+    const post = {
+      postId: 1,
+      ...postDTOStub(),
+    };
+
+    await new postModel(post).save();
+    const result = await service.deletePost(1);
+    expect(result).toBe(true);
+  });
+
+  it('updatePost', async () => {
+    const post = {
+      postId: 1,
+      ...postDTOStub(),
+    };
+
+    await new postModel(post).save();
+    const createdPost = await service.updatePost(1, postDTOStub());
+    expect(createdPost.title).toBe(postDTOStub().title);
   });
 });

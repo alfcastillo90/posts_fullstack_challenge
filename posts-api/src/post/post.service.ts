@@ -19,7 +19,7 @@ export class PostService {
     return newPost.save();
   }
   async updatePost(
-    postId: string,
+    postId: number,
     updatePostDto: UpdatePostDto,
   ): Promise<IPost> {
     const existingPost = await this.postModel.findOneAndUpdate(
@@ -37,18 +37,18 @@ export class PostService {
   async getAllPosts(): Promise<IPost[]> {
     return this.postModel.find();
   }
-  async getPost(postId: string): Promise<IPost> {
+  async getPost(postId: number): Promise<IPost> {
     const existingPost = await this.postModel.findOne({ postId }).exec();
     if (!existingPost) {
       throw new NotFoundException(`Post #${postId} not found`);
     }
     return existingPost;
   }
-  async deletePost(postId: string): Promise<IPost> {
+  async deletePost(postId: number): Promise<boolean> {
     const deletedPost = await this.postModel.findOneAndDelete({ postId });
     if (!deletedPost) {
       throw new NotFoundException(`Post #${postId} not found`);
     }
-    return deletedPost;
+    return true;
   }
 }

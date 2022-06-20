@@ -8,7 +8,7 @@ import { Post } from "../model/post";
 })
 export class PostService {
   // Node/Express API
-  REST_API: string = 'http://localhost:3000/api';
+  REST_API: string = 'https://peaceful-castle-96018.herokuapp.com/api';
   // Http Header
   httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
   constructor(private httpClient: HttpClient) { }
